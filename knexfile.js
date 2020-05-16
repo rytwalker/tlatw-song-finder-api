@@ -1,37 +1,37 @@
 module.exports = {
   development: {
-    client: 'pg',
-    connection:'postgres://localhost/tlatw',
+    client: "pg",
+    connection: "postgres://localhost/tlatw",
     migrations: {
-      directory: './db/migrations'
+      directory: "./src/db/migrations",
     },
     seeds: {
-      directory: './db/seeds/dev'
+      directory: "./src/db/seeds/dev",
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   test: {
-    client: 'pg',
-    connection:'postgres://localhost/tlatw_test',
+    client: "pg",
+    connection: "postgres://localhost/tlatw_test",
     migrations: {
-      directory: './db/migrations'
+      directory: "./src/db/migrations",
     },
     seeds: {
-      directory: './db/seeds/test'
+      directory: "./src/db/seeds/test",
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
   },
 
   production: {
-    client: 'pg',
+    client: "pg",
     connection: process.env.DATABASE_URL,
     migrations: {
-      directory: './db/migrations'
+      directory: "./src/db/migrations",
     },
     seeds: {
-      directory: './db/seeds/production'
+      directory: "./src/db/seeds/production",
     },
-    useNullAsDefault: true
-  }
-}
+    useNullAsDefault: true,
+  },
+};
