@@ -4,7 +4,11 @@ const db = require("../db/config");
 class AudioFeature extends BaseModel {
   static async find() {
     try {
-      return await db("audio-features");
+      return await db("audio-features as af").join(
+        "tracks as t",
+        "t.id",
+        "af.trackId"
+      );
     } catch (error) {
       console.log(error);
     }

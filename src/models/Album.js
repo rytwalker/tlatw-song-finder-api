@@ -2,9 +2,13 @@ const BaseModel = require("./BaseModel");
 const db = require("../db/config");
 
 class Album extends BaseModel {
-  static async find() {
+  static async find(field = null) {
     try {
-      return await db("albums");
+      if (field && field.id) {
+        return await db("albums").where({ id: field.id }).first();
+      } else {
+        return await db("albums");
+      }
     } catch (error) {
       console.log(error);
     }
