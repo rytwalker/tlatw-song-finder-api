@@ -7,8 +7,7 @@ const router = require("./routes/index");
 
 const app = express();
 Sentry.init({
-  dsn:
-    "https://59ceee01f1f445dd9af42f40161deb3c@o395901.ingest.sentry.io/5248539",
+  dsn: process.env.PUBLIC_DSN,
 });
 
 app.use(Sentry.Handlers.requestHandler());
@@ -18,9 +17,6 @@ app.use(cors());
 app.use("/", router);
 app.get("/", (_req, res) => {
   res.json({ message: "hello" });
-});
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
 });
 
 // Sentry error handlers

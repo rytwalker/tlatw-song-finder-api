@@ -10,6 +10,12 @@ const {
 class SearchController {
   static async query(req, res) {
     try {
+      if (Object.keys(req.body).length === 0) {
+        return res
+          .status(400)
+          .json({ message: "This request requires a body." });
+      }
+
       const {
         energy,
         danceability,
@@ -73,6 +79,7 @@ class SearchController {
       });
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: "Oop something went wrong." });
     }
   }
 }

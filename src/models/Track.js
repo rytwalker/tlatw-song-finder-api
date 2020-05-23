@@ -1,6 +1,8 @@
 const BaseModel = require("./BaseModel");
 const db = require("../db/config");
 
+const USEABLE_ALBUMS = [1, 2, 3, 4, 5, 6, 9, 10];
+
 class Track extends BaseModel {
   static async find() {
     try {
@@ -10,16 +12,15 @@ class Track extends BaseModel {
         "af.trackId"
       );
       const albums = await db("albums").where((builder) =>
-        builder.whereIn("id", [1, 2, 3, 4, 5, 6, 9, 10])
+        builder.whereIn("id", USEABLE_ALBUMS)
       );
-      const useableAlbums = new Set([1, 2, 3, 4, 5, 6, 9, 10]);
-      const filtered = tracks.filter((track) =>
-        useableAlbums.has(track.albumId)
-      );
-      return filtered.map((t) => ({
-        ...t,
-        album: albums.find((a) => a.id === t.albumId),
-      }));
+      const useableAlbums = new Set(USEABLE_ALBUMS);
+      return tracks
+        .filter((track) => useableAlbums.has(track.albumId))
+        .map((t) => ({
+          ...t,
+          album: albums.find((a) => a.id === t.albumId),
+        }));
     } catch (error) {
       console.log(error);
     }
