@@ -37,7 +37,7 @@ router.get("/", authSpotify, async (_req, res) => {
 
     // 2. Albums
     const albumResponse = await baseRequest({
-      slug: `albums/${TLATW_SPOTIFY_ID}`,
+      slug: `artists/${TLATW_SPOTIFY_ID}/albums`,
       access_token: res.access_token,
     });
     const jsonAlbumRes = await albumResponse.json();
