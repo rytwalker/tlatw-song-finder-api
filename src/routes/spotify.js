@@ -17,7 +17,7 @@ router.get("/", authSpotify, async (_req, res) => {
   try {
     // Since we only have one artist at this point it just checks if there are any in the db
     const hasArtist = await Artist.find();
-    if (!hasArtist.length) {
+    if (hasArtist.length) {
       return res.status(400).json({ message: "Artist already exists in DB." });
     }
 
