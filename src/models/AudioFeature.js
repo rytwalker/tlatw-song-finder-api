@@ -58,7 +58,7 @@ class AudioFeature extends BaseModel {
       );
       return id;
     } catch (error) {
-      console.log(error);
+      console.dir(error);
     }
   }
 

@@ -62,6 +62,7 @@ router.get("/", authSpotify, async (_req, res) => {
 
     // 3. Tracks
     const albums = await Album.find();
+
     albums.forEach(async (album) => {
       const tracksResponse = await baseRequest({
         slug: `albums/${album.spotifyId}/tracks`,
@@ -70,6 +71,7 @@ router.get("/", authSpotify, async (_req, res) => {
 
       const jsonTracksRes = await tracksResponse.json();
       jsonTracksRes.items.forEach(async (track) => {
+        console.log("1");
         await Track.insert({
           name: track.name,
           spotifyId: track.id,
@@ -78,12 +80,28 @@ router.get("/", authSpotify, async (_req, res) => {
           trackNumber: track.track_number,
           durationMs: track.duration_ms,
           previewUrl: track.preview_url,
-        });
+        }).then(async () => {});
       });
     });
 
-    // 4. Audio Features
-    const tracks = await Track.find();
+    res.status(200).json({ message: "success" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+router.get("/audio-data", authSpotify, async (req, res) => {
+  // 4. get audio features for track
+  try {
+    const hasAudioFeatures = await AudioFeature.find();
+    if (hasAudioFeatures.length) {
+      return res
+        .status(400)
+        .json({ message: "Audio Features already exists in DB." });
+    }
+    const tracks = await Track.findRaw();
+    console.log("get tracks.");
     tracks.forEach(async (track) => {
       const audioFeatureResponse = await baseRequest({
         slug: `audio-features/${track.spotifyId}`,
@@ -114,7 +132,6 @@ router.get("/", authSpotify, async (_req, res) => {
     res.status(200).json({ message: "success" });
   } catch (error) {
     console.log(error);
-    res.status(500).json(error);
   }
 });
 

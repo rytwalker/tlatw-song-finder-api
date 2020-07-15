@@ -11,6 +11,7 @@ class Track extends BaseModel {
         "t.id",
         "af.trackId"
       );
+      // console.log(tracks);
       const albums = await db("albums").where((builder) =>
         builder.whereIn("id", USEABLE_ALBUMS)
       );
@@ -21,6 +22,14 @@ class Track extends BaseModel {
           ...t,
           album: albums.find((a) => a.id === t.albumId),
         }));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  static async findRaw() {
+    try {
+      return await db("tracks");
     } catch (error) {
       console.log(error);
     }
