@@ -101,7 +101,6 @@ router.get("/audio-data", authSpotify, async (req, res) => {
         .json({ message: "Audio Features already exists in DB." });
     }
     const tracks = await Track.findRaw();
-    console.log("get tracks.");
     tracks.forEach(async (track) => {
       const audioFeatureResponse = await baseRequest({
         slug: `audio-features/${track.spotifyId}`,
